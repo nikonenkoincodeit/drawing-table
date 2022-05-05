@@ -11,7 +11,7 @@
           name="email"
           placeholder="Email"
           class="input-elem"
-          v-model="email"
+          v-model.trim="email"
         />
       </div>
       <div>
@@ -21,7 +21,7 @@
           name="password"
           placeholder="password"
           class="input-elem"
-          v-model="password"
+          v-model.trim="password"
         />
       </div>
 
@@ -33,6 +33,7 @@
 <script>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import Notiflix from "notiflix";
 
 export default {
   name: "ModalForm",
@@ -42,14 +43,27 @@ export default {
     let email = ref("");
     let password = ref("");
 
-    const hiddenForm = () => store.dispatch("TOGGLE_SHOW_FORM", true);
+    const hiddenForm = () => {
+      store.dispatch("TOGGLE_SHOW_FORM", true);
+      password.value = "";
+      email.value = "";
+    };
 
     const getData = () => {
-      hiddenForm();
-      console.log("object :>> ", {
-        password: password.value,
-        email: email.value,
-      });
+      store
+        .dispatch("VALIDATE_USER", {
+          password: password.value,
+          email: email.value,
+        })
+        .then(() => {
+          Notiflix.Notify.success("Привіт, викладач!");
+        })
+        .catch(() => {
+          Notiflix.Notify.warning("Упс! Щось пішло не так...");
+        })
+        .finally(() => {
+          hiddenForm();
+        });
     };
 
     const isShowForm = computed(() => store.state.showForm);
