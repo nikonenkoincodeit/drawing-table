@@ -2,9 +2,10 @@
   "name": "drawing-table",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://goitacademy.github.io/drawing-table",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build /drawing-table",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -27,7 +28,8 @@
     "eslint-plugin-vue": "^7.0.0",
     "node-sass": "^4.12.0",
     "prettier": "^2.2.1",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-vuetify": "^2.4.8"
   },
   "eslintConfig": {
     "root": true,
