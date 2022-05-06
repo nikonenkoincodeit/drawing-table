@@ -1,10 +1,21 @@
 <template>
-  <div class="container"><h1>Hello</h1></div>
+  <main>
+    <section class="section">
+      <div class="container"><Canvas /></div>
+    </section>
+  </main>
 </template>
 
 <script>
+import Canvas from "@/components/Canvas.vue";
 export default {
   name: "Home",
-  components: {},
+  components: { Canvas },
 };
 </script>
+
+<style lang="scss">
+.section {
+  padding: 20px 0;
+}
+</style>
