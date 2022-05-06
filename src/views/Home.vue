@@ -1,16 +1,22 @@
 <template>
   <main>
     <section class="section">
-      <div class="container"><Canvas /></div>
+      <div class="container">
+        <div class="row">
+          <DrawingTools />
+          <Canvas />
+        </div>
+      </div>
     </section>
   </main>
 </template>
 
 <script>
 import Canvas from "@/components/Canvas.vue";
+import DrawingTools from "@/components/DrawingTools.vue";
 export default {
   name: "Home",
-  components: { Canvas },
+  components: { Canvas, DrawingTools },
 };
 </script>
 

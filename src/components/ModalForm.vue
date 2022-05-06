@@ -98,6 +98,19 @@ export default {
   position: relative;
   max-width: 500px;
   width: calc(100% - 30px);
+  .input-elem {
+    padding: 0 15px;
+    width: 100%;
+    border: 1px solid #ccc;
+    height: 40px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    outline: none;
+    &:hover,
+    &:focus {
+      border: 1px solid #188ce8;
+    }
+  }
 }
 .close-btn {
   width: 30px;
@@ -117,19 +130,7 @@ export default {
     color: #188ce8;
   }
 }
-.input-elem {
-  padding: 0 15px;
-  width: 100%;
-  border: 1px solid #ccc;
-  height: 40px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  outline: none;
-  &:hover,
-  &:focus {
-    border: 1px solid #188ce8;
-  }
-}
+
 .send-btn {
   padding: 10px 32px;
   border-radius: 4px;
