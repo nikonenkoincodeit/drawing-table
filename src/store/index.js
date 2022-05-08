@@ -12,11 +12,18 @@ export default createStore({
   state: {
     offsetX: 0,
     offsetY: 0,
-    positionX: 0,
-    positionY: 0,
     showForm: true,
     user: null,
     dragAndDropElement: false,
+    editorSettings: {
+      type: "",
+      img: "",
+      x: 0,
+      y: 0,
+      value: "",
+      width: 300,
+      height: 300,
+    },
   },
   getters: {
     GET_USER: (state) => {
@@ -28,14 +35,11 @@ export default createStore({
         y: state.offsetY,
       };
     },
-    GET_POSITION_ELEMENT: (state) => {
-      return {
-        x: state.positionX,
-        y: state.positionY,
-      };
-    },
     GET_DRAG_AND_DROP: (state) => {
       return state.dragAndDropElement;
+    },
+    GET_EDITOR_SETTINGS: (state) => {
+      return state.editorSettings;
     },
   },
   mutations: {
@@ -52,8 +56,15 @@ export default createStore({
       state.offsetX = payload.x;
       state.offsetY = payload.y;
     },
+    SET_EDITOR_SETTINGS: (state, type) => {
+      state.editorSettings = { ...state.editorSettings, type };
+      console.log("state.editorSettings :>> ", state.editorSettings);
+    },
   },
   actions: {
+    SET_EDITOR_SETTINGS: ({ commit }, payload) => {
+      commit("SET_EDITOR_SETTINGS", payload);
+    },
     TOGGLE_SHOW_FORM: ({ commit }, payload) => {
       commit("TOGGLE_SHOW_FORM", payload);
     },

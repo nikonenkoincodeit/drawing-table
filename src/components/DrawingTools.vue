@@ -6,7 +6,7 @@
         class="list-btn"
         @click="updateDrawing(option)"
         :disabled="option.disabled && !isUser"
-        :class="{ current: option.current }"
+        :class="{ current: option.current && editorSettings.type }"
       >
         <img :src="addImage(option.icon)" alt="images" width="40" />
       </button>
@@ -26,9 +26,14 @@ export default {
     let options = reactive([
       { icon: "font.png", type: "text", current: false, disabled: true },
       { icon: "picture-icon.png", type: "img", current: false, disabled: true },
-      { icon: "square.png", type: "figure", current: false, disabled: true },
-      { icon: "triangle.png", type: "figure", current: false, disabled: true },
-      { icon: "dry-clean.png", type: "figure", current: false, disabled: true },
+      { icon: "square.png", type: "square", current: false, disabled: true },
+      {
+        icon: "triangle.png",
+        type: "triangle",
+        current: false,
+        disabled: true,
+      },
+      { icon: "circle.png", type: "circle", current: false, disabled: true },
       { icon: "bin.png", type: "figure", current: false, disabled: true },
       {
         icon: "download.png",
@@ -39,6 +44,8 @@ export default {
     ]);
 
     const isUser = computed(() => store.getters.GET_USER);
+
+    const editorSettings = computed(() => store.getters.GET_EDITOR_SETTINGS);
 
     const addImage = (img) => require("@/assets/images/" + img);
 
@@ -52,10 +59,12 @@ export default {
     const updateDrawing = (data) => {
       resetClass(data.icon);
       data.current = !data.current;
-      //console.log("data :>> ", data);
+      const type = data.current ? data.type : "";
+      console.log("data :>> ", type);
+      store.dispatch("SET_EDITOR_SETTINGS", type);
     };
 
-    return { options, addImage, updateDrawing, isUser };
+    return { options, addImage, updateDrawing, isUser, editorSettings };
   },
 };
 </script>
