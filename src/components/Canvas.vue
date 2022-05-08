@@ -84,9 +84,11 @@ export default {
 
     watch(typeSelect, (currentValue) => {
       if (currentValue === "delete") {
+        onResetClass();
         return clearCanvas();
       }
       if (currentValue === "download") {
+        onResetClass();
         return downloadImage();
       }
     });
