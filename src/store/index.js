@@ -17,12 +17,6 @@ export default createStore({
     dragAndDropElement: false,
     editorSettings: {
       type: "",
-      img: "",
-      x: 0,
-      y: 0,
-      value: "",
-      width: 300,
-      height: 300,
     },
   },
   getters: {
@@ -58,7 +52,6 @@ export default createStore({
     },
     SET_EDITOR_SETTINGS: (state, type) => {
       state.editorSettings = { ...state.editorSettings, type };
-      console.log("state.editorSettings :>> ", state.editorSettings);
     },
   },
   actions: {

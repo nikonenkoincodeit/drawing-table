@@ -15,7 +15,9 @@
         ></button>
       </li>
       <li class="save-item">
-        <button type="button" class="circle-btn">&#10004;</button>
+        <button type="button" class="circle-btn" @click="addShapeToCanvas">
+          &#10004;
+        </button>
       </li>
       <li class="close-item">
         <button type="button" class="circle-btn" @click="closeEditor">
@@ -26,17 +28,20 @@
     <input
       type="text"
       class="input-elem"
-      v-show="editorSettings.type === 'text'"
+      v-show="type === 'text'"
+      v-model="value"
     />
-    <div class="box-figure" v-show="typeFigure">
+    <div class="box-figure" v-show="typeFigure || userImg">
       <img :src="addImage" alt="figure" />
     </div>
+    <input type="file" class="file" ref="file" @change="loadImg" />
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
+import { renderImage } from "@/utils";
 
 export default {
   name: "EditorBox",
@@ -44,12 +49,18 @@ export default {
     posX: Number,
     posY: Number,
     updatePos: Function,
+    onResetClass: Function,
+    addTextToCanvas: Function,
+    addImageToCanvas: Function,
   },
   setup(props) {
     const store = useStore();
+    const value = ref("");
+    let file = ref(null);
+    let userImg = ref(null);
 
     const figure = ["square", "triangle", "circle"];
-    const elements = [...figure, "text", "img"];
+    const elements = [...figure, "text"];
 
     const position = computed(() => {
       return {
@@ -58,13 +69,11 @@ export default {
       };
     });
 
-    const editorSettings = computed(() => store.getters.GET_EDITOR_SETTINGS);
-    const typeFigure = computed(() =>
-      figure.includes(editorSettings.value.type)
-    );
+    const type = computed(() => store.getters.GET_EDITOR_SETTINGS.type);
+    const typeFigure = computed(() => figure.includes(type.value));
 
-    const showEditor = computed(() =>
-      elements.includes(editorSettings.value.type)
+    const showEditor = computed(
+      () => elements.includes(type.value) || userImg.value
     );
 
     const startDragAndDrop = (e) => {
@@ -75,24 +84,60 @@ export default {
 
     const closeEditor = () => {
       store.dispatch("SET_EDITOR_SETTINGS", "");
+      props.onResetClass();
       props.updatePos();
+      userImg.value = null;
     };
 
     const addImage = computed(() => {
       if (typeFigure.value) {
-        return require("@/assets/images/" + editorSettings.value.type + ".png");
+        return require("@/assets/images/" + type.value + ".png");
       }
-      return null;
+      return userImg.value;
+    });
+
+    const addShapeToCanvas = () => {
+      const x = props.posX + 5;
+      const y = props.posY + 30;
+      if (typeFigure.value) {
+        props.addImageToCanvas(addImage.value, x, y);
+      }
+
+      if (type.value === "text") {
+        if (value.value) props.addTextToCanvas(value.value, x + 15, y + 25);
+        value.value = "";
+      }
+      if (type.value === "img") {
+        props.addImageToCanvas(userImg.value, x, y);
+      }
+      closeEditor();
+    };
+
+    const loadImg = () => {
+      renderImage(file.value.files[0]).then((img) => {
+        userImg.value = img;
+      });
+    };
+
+    watch(type, (currentValue) => {
+      if (currentValue === "img") {
+        file.value.click();
+      }
     });
 
     return {
+      addShapeToCanvas,
       startDragAndDrop,
       closeEditor,
-      editorSettings,
       typeFigure,
       showEditor,
+      userImg,
+      loadImg,
       addImage,
       position,
+      value,
+      file,
+      type,
     };
   },
 };
@@ -152,5 +197,12 @@ export default {
   width: 300px;
   height: 300px;
   border: 1px solid #ccc;
+}
+.file {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: -1px;
 }
 </style>

@@ -15,56 +15,39 @@
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
   name: "DrawingTools",
-  setup() {
+  props: {
+    options: Array,
+    resetClass: Function,
+  },
+  setup(props) {
     const store = useStore();
 
-    let options = reactive([
-      { icon: "font.png", type: "text", current: false, disabled: true },
-      { icon: "picture-icon.png", type: "img", current: false, disabled: true },
-      { icon: "square.png", type: "square", current: false, disabled: true },
-      {
-        icon: "triangle.png",
-        type: "triangle",
-        current: false,
-        disabled: true,
-      },
-      { icon: "circle.png", type: "circle", current: false, disabled: true },
-      { icon: "bin.png", type: "figure", current: false, disabled: true },
-      {
-        icon: "download.png",
-        type: "download",
-        current: false,
-        disabled: false,
-      },
-    ]);
-
     const isUser = computed(() => store.getters.GET_USER);
+    const option = computed(() => props.options);
 
     const editorSettings = computed(() => store.getters.GET_EDITOR_SETTINGS);
 
     const addImage = (img) => require("@/assets/images/" + img);
 
-    const resetClass = (icon) => {
-      options = options.map((item) => {
-        if (item.icon !== icon) item.current = false;
-        return item;
-      });
-    };
-
     const updateDrawing = (data) => {
-      resetClass(data.icon);
+      props.resetClass(data.icon);
       data.current = !data.current;
       const type = data.current ? data.type : "";
-      console.log("data :>> ", type);
       store.dispatch("SET_EDITOR_SETTINGS", type);
     };
 
-    return { options, addImage, updateDrawing, isUser, editorSettings };
+    return {
+      updateDrawing,
+      addImage,
+      editorSettings,
+      option,
+      isUser,
+    };
   },
 };
 </script>
