@@ -60,6 +60,7 @@ export default {
     const addTextToCanvas = (text, x = 0, y = 0) => {
       ctx.value.font = "18px Roboto";
       ctx.value.fillText(text, x, y);
+      sendImage();
     };
 
     getData(getParams()).then((data) => {
@@ -96,6 +97,7 @@ export default {
 
     const clearCanvas = () => {
       ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height);
+      sendData(getParams(), null);
     };
 
     const onResetClass = () => {
