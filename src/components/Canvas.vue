@@ -21,6 +21,7 @@
 import { ref, onMounted, watch, computed } from "vue";
 import { useStore } from "vuex";
 import EditorBox from "@/components/EditorBox.vue";
+import { getParams } from "@/utils";
 
 export default {
   name: "Canvas",
@@ -34,6 +35,9 @@ export default {
     let posY = ref(0);
     let canvas = ref(null);
     let ctx = ref(null);
+    let params = ref(1);
+    params = getParams();
+    console.log("params :>> ", params);
 
     const updatePos = (x = 0, y = 0) => {
       posX.value = x;
@@ -92,6 +96,7 @@ export default {
         return downloadImage();
       }
     });
+    console.log("getParams:>> ", getParams());
 
     onMounted(() => {
       ctx.value = canvas.value.getContext("2d");
