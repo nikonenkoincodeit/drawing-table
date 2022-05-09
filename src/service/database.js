@@ -6,7 +6,7 @@ initializeApp(firebaseConfig);
 const db = getDatabase();
 
 export const getData = (payload) => {
-  return get(ref(db, "editor/" + payload))
+  return get(ref(db, "room_" + payload))
     .then((snapshot) => {
       if (snapshot.exists()) {
         return snapshot.val();
@@ -21,8 +21,8 @@ export const getData = (payload) => {
 
 export const sendData = (payload, data = {}) => {
   try {
-    set(ref(db, "editor/" + payload), data);
+    set(ref(db, "room_" + payload), data);
   } catch (error) {
-    console.log("error :>> ", error);
+    throw new Error(error);
   }
 };

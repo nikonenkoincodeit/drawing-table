@@ -1,7 +1,11 @@
 <template>
   <header class="header">
     <div class="container">
-      <h1 class="title">{{ title }}</h1>
+      <div>
+        <p>Кімната {{ room }}</p>
+        <h1 class="title">{{ title }}</h1>
+      </div>
+
       <button type="button" class="btn-auth" @click="toggleRole">
         {{ textBtn }}
       </button>
@@ -10,15 +14,18 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
 import { logOff } from "@/service/auth";
+import { getParams } from "@/utils";
 
 export default {
   name: "Header",
   setup() {
     const store = useStore();
+    let room = ref(null);
+    room = getParams();
 
     const isUser = computed(() => store.getters.GET_USER);
     const title = computed(() => (isUser.value ? "Викладач" : "Студент"));
@@ -32,7 +39,7 @@ export default {
       }
     };
     store.dispatch("GET_USER");
-    return { toggleRole, title, textBtn };
+    return { toggleRole, title, textBtn, room };
   },
 };
 </script>

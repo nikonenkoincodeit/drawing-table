@@ -20,7 +20,10 @@
 <script>
 import { ref, onMounted, watch, computed } from "vue";
 import { useStore } from "vuex";
+
 import EditorBox from "@/components/EditorBox.vue";
+
+import { getData, sendData } from "@/service/database";
 import { getParams } from "@/utils";
 
 export default {
@@ -35,9 +38,6 @@ export default {
     let posY = ref(0);
     let canvas = ref(null);
     let ctx = ref(null);
-    let params = ref(1);
-    params = getParams();
-    console.log("params :>> ", params);
 
     const updatePos = (x = 0, y = 0) => {
       posX.value = x;
@@ -62,11 +62,35 @@ export default {
       ctx.value.fillText(text, x, y);
     };
 
-    const addImageToCanvas = (url, x = 0, y = 0, size = 300) => {
+    getData(getParams()).then((data) => {
+      if (data) {
+        const { image, width, height } = data;
+        addImageToCanvas(image, 0, 0, width, height, false);
+      }
+    });
+
+    const sendImage = () => {
+      sendData(getParams(), {
+        image: dataURL(),
+        id: Date.now(),
+        width: canvas.value.width,
+        height: canvas.value.height,
+      });
+    };
+
+    const addImageToCanvas = (
+      url,
+      x = 0,
+      y = 0,
+      w = 300,
+      h = 300,
+      flag = true
+    ) => {
       let img = new Image();
       img.src = url;
       img.onload = function () {
-        ctx.value.drawImage(img, x, y, size, size);
+        ctx.value.drawImage(img, x, y, w, h);
+        if (flag) sendImage();
       };
     };
 
@@ -78,10 +102,11 @@ export default {
       props.resetClass();
     };
 
+    const dataURL = () => canvas.value.toDataURL("image/png");
+
     const downloadImage = () => {
-      const dataURL = canvas.value.toDataURL("image/png");
       const link = document.createElement("a");
-      link.href = dataURL;
+      link.href = dataURL();
       link.download = "my-image.png";
       link.click();
     };
@@ -96,7 +121,6 @@ export default {
         return downloadImage();
       }
     });
-    console.log("getParams:>> ", getParams());
 
     onMounted(() => {
       ctx.value = canvas.value.getContext("2d");
