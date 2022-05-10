@@ -6,6 +6,10 @@ initializeApp(firebaseConfig);
 const db = getDatabase();
 
 export const getData = (payload) => {
+  // onValue("room_" + payload, (snapshot) => {
+  //   const data = snapshot.val();
+  //   console.log("data :>> ", data);
+  // });
   return get(ref(db, "room_" + payload))
     .then((snapshot) => {
       if (snapshot.exists()) {

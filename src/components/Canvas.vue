@@ -38,6 +38,8 @@ export default {
     let posY = ref(0);
     let canvas = ref(null);
     let ctx = ref(null);
+    let urlParams = ref(1);
+    urlParams = getParams();
 
     const updatePos = (x = 0, y = 0) => {
       posX.value = x;
@@ -63,7 +65,7 @@ export default {
       sendImage();
     };
 
-    getData(getParams()).then((data) => {
+    getData(urlParams).then((data) => {
       if (data) {
         const { image, width, height } = data;
         addImageToCanvas(image, 0, 0, width, height, false);
@@ -71,7 +73,7 @@ export default {
     });
 
     const sendImage = () => {
-      sendData(getParams(), {
+      sendData(urlParams, {
         image: dataURL(),
         id: Date.now(),
         width: canvas.value.width,
@@ -97,7 +99,7 @@ export default {
 
     const clearCanvas = () => {
       ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height);
-      sendData(getParams(), null);
+      sendData(urlParams, null);
     };
 
     const onResetClass = () => {
