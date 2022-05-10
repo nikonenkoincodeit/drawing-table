@@ -33,6 +33,7 @@ const urlParams = getParams();
 export const getValue = () => {
   onValue(ref(db, "room_" + urlParams), (snapshot) => {
     const data = snapshot.val();
+    console.log("data :>> ", data);
     if (data) {
       const { image, width, height } = data;
       addImageToCanvas(image, width, height);

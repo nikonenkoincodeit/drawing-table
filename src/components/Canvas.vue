@@ -23,7 +23,7 @@ import { useStore } from "vuex";
 
 import EditorBox from "@/components/EditorBox.vue";
 
-import { getData, sendData } from "@/service/database";
+import { getData, sendData, getValue } from "@/service/database";
 import { getParams } from "@/utils";
 
 export default {
@@ -128,6 +128,7 @@ export default {
 
     onMounted(() => {
       ctx.value = canvas.value.getContext("2d");
+      getValue();
     });
 
     return {
