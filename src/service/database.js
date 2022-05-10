@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "@/config/firebase-config";
 import { getDatabase, set, ref, get, onValue } from "firebase/database";
 
-import { getParams, addImageToCanvas } from "../utils";
+import { getParams, addImageToCanvas, clearCanvas } from "../utils";
 
 initializeApp(firebaseConfig);
 const db = getDatabase();
@@ -36,6 +36,8 @@ export const getValue = () => {
     if (data) {
       const { image, width, height } = data;
       addImageToCanvas(image, width, height);
+    } else {
+      clearCanvas();
     }
   });
 };

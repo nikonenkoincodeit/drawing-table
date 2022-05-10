@@ -30,3 +30,7 @@ export const addImageToCanvas = (url, w = 300, h = 300) => {
     ctx.drawImage(img, 0, 0, w, h);
   };
 };
+
+export const clearCanvas = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
