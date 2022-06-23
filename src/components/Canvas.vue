@@ -18,6 +18,7 @@
 </template>
 
 <script>
+console.log(11111)
 import { ref, onMounted, watch, computed } from "vue";
 import { useStore } from "vuex";
 
