@@ -1,10 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyCLmFPwuGDKDD2I_Yhi7A4CIqZdlRHKDpY",
-  authDomain: "drawing-ba0e2.firebaseapp.com",
-  databaseURL:
-    "https://drawing-ba0e2-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "drawing-ba0e2",
-  storageBucket: "drawing-ba0e2.appspot.com",
-  messagingSenderId: "784399442719",
-  appId: "1:784399442719:web:d146fa4158bb1dd7a4c62a",
+  apiKey: "AIzaSyCPjk1E34nPDy4P83msEWktdV1uhHuk-Vg",
+  authDomain: "to-do-list-57e5e.firebaseapp.com",
+  databaseURL: "https://to-do-list-57e5e-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "to-do-list-57e5e",
+  storageBucket: "to-do-list-57e5e.appspot.com",
+  messagingSenderId: "638525864468",
+  appId: "1:638525864468:web:b14e6928d8a479105c4501"
 };
